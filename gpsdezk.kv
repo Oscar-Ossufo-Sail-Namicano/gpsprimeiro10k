@@ -1,0 +1,449 @@
+#:import Factory kivy.factory.Factory
+
+
+####################### Reusible Widgwts################
+
+<Card@MDCard>:
+    orientation: "vertical"
+    spacing:"20dp"
+    padding: "10dp"
+    size_hint_y: None
+    height: "150dp"
+
+<InfoIcon@MDIconButton>:
+    icon: "exclamation"
+    pos_hint: {"top": 1.03, "right": 1.03}
+
+<BottomBar@FloatLayout>:
+    spacing: self.width*0.1
+    padding: self.width*0.2, "15dp"
+    size_hint_y: .1
+    pos_hint: {"center_x": .5, 'center_x': .5}
+    MDIconButton:
+        pos_hint: {'center_x': 0.19, 'center_y': 0.5}
+        icon: "icons/gem.png"
+        #font_size: dp(72)
+        halign: 'center'
+
+    MDIconButton:
+        pos_hint: {'center_x': 0.39, 'center_y': 0.5}
+        icon: "account-group"
+        #font_size: dp(72)
+        halign: 'center'
+        on_release: Factory.MenuComponent().increase()
+    MDIconButton:
+        pos_hint: {'center_x': 0.59, 'center_y': 0.5}
+        icon: "timer-sand"
+        #font_size: dp(72)
+        #halign: 'center'
+        valign: 'top'
+    MDIconButton:
+        pos_hint: {'center_x': 0.79, 'center_y': 0.5}
+        icon: "checkbox-multiple-marked"
+        #font_size: dp(72)
+        #halign: 'center'
+        valign: 'top'
+
+
+<FAB>:
+    num_level: 0
+    icon: "lightbulb"
+    pos_hint: {"center_x":0.5, "top": 0.70}
+    font_size: '20dp' 
+    type: 'small'
+    size_hint: (0.1, 0.1)
+    #on_press: root.increase()
+    md_bg_color: root.parent.bkg_color if self.num_level <= app.Level else self.blocked_color
+
+
+<MenuComponent>:
+    id: mncomponent
+    primaryText: ""
+    secondaryText: ""
+    img: ""
+    bkg_color: app.theme_cls.primary_color
+
+    TwoLineRightIconListItem:
+        id: twolinelist
+        text_color: 0.4, 0.1, 0.31, 1
+        pos_hint: {'center_x': 0.5, 'top':1}
+        text: f'[color=#ffffff][b]{root.primaryText}[/b][/color]'
+        secondary_text: f'[color=#ffffff]{root.secondaryText}[/color]'
+        _no_ripple_effect: True
+        bg_color: root.bkg_color
+
+        ImageRightWidget:
+            source: root.img
+
+        
+################## End Reusible Widgets #######################
+
+
+<Menu>:
+    MDBoxLayout:
+        canvas.before:
+            Color:
+                rgba: 0.9,0.9,0.9,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        orientation: 'vertical'
+        spacing: "15dp"
+        MDTopAppBar:
+            id: menu_top_bar
+            title: "GPS do primeiro 10k"
+            left_action_items: [['menu']]
+
+        MDScrollView:
+            id: menu_scroll
+            do_scroll_y: True
+            MDBoxLayout:
+                size_hint_y: None
+                height: self.minimum_height
+                #padding: "20dp"
+                spacing: "30dp"
+                orientation: 'vertical'
+
+                MenuComponent:
+                    size_hint_y: None
+                    height: root.height*0.6
+                    #bkg_color: "#9b5aefff"
+                    img: "icons/bulb.png"
+                    primaryText: "Unidade 1"
+                    secondaryText: "Começando no Marketing Digital"
+                    FAB:
+                        num_level: 1
+                        id: btn1
+                        icon: "icons/small-key.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+
+                    FAB:
+                        btn_level: 1
+                        num_level: 2
+                        id: btn2
+                        pos_hint: {"center_x": 0.8, "center_y": 0.35}
+                        icon: "icons/rocket-lunch.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 2
+                        num_level: 3
+                        id: btn3
+                        pos_hint: {"center_x": 0.5, "y": 0.0}
+                        icon: "icons/trophy.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                MenuComponent:
+                    size_hint_y: None
+                    height: root.height*0.6
+                    bkg_color: "2d2f68ff"
+                    img: "icons/trophy.png"
+                    primaryText: "Unidade 2"
+                    secondaryText: "Auto-desenvolvimento"
+                    FAB:
+                        num_level: 4
+                        id: btn4
+                        icon: "icons/small-key.png"
+                        pos_hint: {"center_x":0.5, "top": 0.70}
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 1
+                        num_level: 5
+                        id: btn5
+                        icon: 'icons/rocket-lunch.png'
+                        pos_hint: {"center_x":0.2, "top": 0.4}
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 2
+                        num_level: 6
+                        id: btn6
+                        icon: 'icons/trophy.png'
+                        pos_hint: {"center_x": 0.5, "y": 0.0}
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                MenuComponent:
+                    size_hint_y: None
+                    height: root.height*0.6
+                    bkg_color: "#e7ba3bff"
+                    #img: "icons/bulb.png"
+                    primaryText: "Unidade 3"
+                    secondaryText: "Estratégias de Vendas"
+                    FAB:
+                        num_level: 7
+                        id: btn7
+                        icon: "icons/small-key.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 1
+                        num_level: 8
+                        id: btn8
+                        pos_hint: {"center_x": 0.8, "center_y": 0.35}
+                        icon: "icons/rocket-lunch.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 2
+                        num_level: 9
+                        id: btn9
+                        pos_hint: {"center_x": 0.5, "y": 0.0}
+                        icon: "icons/trophy.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                MenuComponent:
+                    size_hint_y: None
+                    height: root.height*0.6
+                    bkg_color: "#654ff9ff"
+                    img: "icons/chat-arrow-grow.png"
+                    primaryText: "Unidade 4"
+                    secondaryText: "Criação de Conteúdo"
+                    FAB:
+                        num_level: 10
+                        id: btn10
+                        icon: "icons/small-key.png"
+                        pos_hint: {"center_x":0.5, "center_y": 0.70}
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+
+                    FAB:
+                        btn_level: 1
+                        num_level: 11
+                        id: btn11
+                        icon: 'icons/rocket-lunch.png'
+                        pos_hint: {"center_x":0.2, "top": 0.4}
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 2
+                        num_level: 12
+                        id: btn12
+                        icon: 'icons/trophy.png'
+                        pos_hint: {"center_x": 0.5, "y": 0.0}
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+
+                    ############ NEW Itens i Menu ###########################################################
+                MenuComponent:
+                    size_hint_y: None
+                    height: root.height*0.6
+                    bkg_color: "#f24d9aff"
+                    img: "icons/bulb.png"
+                    primaryText: "Unidade 5"
+                    secondaryText: "Orçamento de Tráfego Pago"
+                    FAB:
+                        num_level: 13
+                        id: btn13
+                        icon: "icons/small-key.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+
+                    FAB:
+                        btn_level: 1
+                        num_level: 14
+                        id: btn14
+                        pos_hint: {"center_x": 0.8, "center_y": 0.35}
+                        icon: "icons/rocket-lunch.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 2
+                        num_level: 15
+                        id: btn15
+                        pos_hint: {"center_x": 0.5, "y": 0.0}
+                        icon: "icons/trophy.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                MenuComponent:
+                    size_hint_y: None
+                    height: root.height*0.6
+                    bkg_color: "#2e8d3bff"
+                    #img: "icons/chat-arrow-grow.png"
+                    primaryText: "Unidade 6"
+                    secondaryText: "Trafégo Orgânico"
+                    FAB:
+                        num_level: 16
+                        id: btn16
+                        icon: "icons/small-key.png"
+                        pos_hint: {"center_x":0.5, "top": 0.70}
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 1
+                        num_level: 17
+                        id: btn17
+                        icon: 'icons/rocket-lunch.png'
+                        pos_hint: {"center_x":0.2, "top": 0.4}
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 2
+                        num_level: 18
+                        id: btn18
+                        icon: 'icons/trophy.png'
+                        pos_hint: {"center_x": 0.5, "y": 0.0}
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                MenuComponent:
+                    size_hint_y: None
+                    height: root.height*0.6
+                    bkg_color: "#469bd2ff"
+                    #img: "icons/bulb.png"
+                    primaryText: "Unidade 7"
+                    secondaryText: "Funis"
+                    FAB:
+                        num_level: 19
+                        id: btn19
+                        icon: "icons/small-key.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 1
+                        num_level: 20
+                        id: btn20
+                        pos_hint: {"center_x": 0.8, "center_y": 0.35}
+                        icon: "icons/rocket-lunch.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 2
+                        num_level: 21
+                        id: btn21
+                        pos_hint: {"center_x": 0.5, "y": 0.0}
+                        icon: "icons/trophy.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+
+            ################### other news #########################
+                MenuComponent:
+                    size_hint_y: None
+                    height: root.height*0.6
+                    bkg_color: "#af68d3ff"
+                    img: "icons/bulb.png"
+                    primaryText: "Unidade 8"
+                    secondaryText: "Vendas"
+                    FAB:
+                        num_level: 22
+                        id: btn22
+                        icon: "icons/small-key.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+
+                    FAB:
+                        btn_level: 1
+                        num_level: 23
+                        id: btn123
+                        pos_hint: {"center_x": 0.8, "center_y": 0.35}
+                        icon: "icons/rocket-lunch.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 2
+                        num_level: 24
+                        id: btn24
+                        pos_hint: {"center_x": 0.5, "y": 0.0}
+                        icon: "icons/trophy.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                MenuComponent:
+                    size_hint_y: None
+                    height: root.height*0.6
+                    bkg_color: "#312e40ff"
+                    #img: "icons/chat-arrow-grow.png"
+                    primaryText: "Unidade 9"
+                    secondaryText: "Refências"
+                    FAB:
+                        num_level: 25
+                        id: btn25
+                        icon: "icons/small-key.png"
+                        pos_hint: {"center_x":0.5, "top": 0.70}
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 1
+                        num_level: 26
+                        id: btn26
+                        icon: 'icons/rocket-lunch.png'
+                        pos_hint: {"center_x":0.2, "top": 0.4}
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 2
+                        num_level: 27
+                        id: btn27
+                        icon: 'icons/trophy.png'
+                        pos_hint: {"center_x": 0.5, "y": 0.0}
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                MenuComponent:
+                    size_hint_y: None
+                    height: root.height*0.6
+                    bkg_color: "#8274f9ff"
+                    #img: "icons/bulb.png"
+                    primaryText: "Unidade 10"
+                    secondaryText: "COPYS"
+                    FAB:
+                        num_level: 28
+                        id: btn28
+                        icon: "icons/small-key.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 1
+                        num_level: 29
+                        id: btn29
+                        pos_hint: {"center_x": 0.8, "center_y": 0.35}
+                        icon: "icons/rocket-lunch.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+                    FAB:
+                        btn_level: 2
+                        num_level: 30
+                        id: btn30
+                        pos_hint: {"center_x": 0.5, "y": 0.0}
+                        icon: "icons/trophy.png"
+                        on_release: app.check_elegibility(self.num_level, self.parent.secondaryText, self.btn_level)
+
+
+        BottomBar
+    
+<LectureScreen>:
+    MDBoxLayout:
+        canvas.before:
+            Color:
+                rgba: 0.9,0.9,0.9,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        orientation: 'vertical'
+        spacing: "15dp"
+        MDTopAppBar:
+            title: root.topic
+            left_action_items: [['arrow-left-circle-outline', lambda x: app.back_home()]]
+
+        MDScrollView:
+            id: lecture_scroll
+            do_scroll_y: True
+            MDBoxLayout:
+                size_hint_y: None
+                height: self.minimum_height
+                padding: "20dp", '0dp'
+                spacing: "30dp"
+                orientation: 'vertical'
+
+                MDRelativeLayout:
+                    size_hint_y: None
+                    height: root.height/2
+                    VideoPlayer:
+                        id: videoplayer
+                        source: root.vid_source
+                        thumbnail: root.thumbnail
+                        image_stop: 'icons/stop-button.png'
+                        image_play: 'icons/play.png'
+                        image_pause: 'icons/pausebutton.png'
+                        image_volumehigh: 'icons/loud.png'
+                        image_volumemuted: 'icons/mute.png'
+                        size_hint: (1,1)
+                        pos_hint: {'center_x': 0.5, 'top': .99}
+
+                MDSeparator:
+                    #height: '2dp'
+                MDLabel:
+                    text: root.topic+f'\nEstágio {root.current_level}:'
+                    bold: True
+                    size_hint_y: None
+                    height: self.font_size
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: '20dp'
+                    padding: '40dp', '20dp'
+                    id: content_container
+                MDRectangleFlatButton:
+                    text: 'Finalizar aula'
+                    pos_hint: {'center_x': 0.5, "y": -2}
+                    on_release: app.level_update(root.current_level)
+
+
+
+<ChatScreen@Screen>:
+    MDRectangleFlatButton:
+        text: 'Back to menu'
+        on_release: app.current = 'menu'
